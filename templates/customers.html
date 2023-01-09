@@ -1,0 +1,48 @@
+{% extends "basetemplate.html" %}
+
+{% block title %}
+Välkommen till vår sajt
+{% endblock %}
+
+{% block content %}
+    Hej jag heter Stefan
+    <p>Idag är det {{ dag }}</p>
+
+
+
+    <p>Din tärning blev {{ siffran }}</p>
+    {% if siffran == 1   %}
+    <img src="{{ url_for('static', filename='images/inverted-dice-1.png') }}">
+    {% elif siffran == 2   %}
+    <img src="{{ url_for('static', filename='images/inverted-dice-2.png') }}">
+    {% elif siffran == 3   %}
+    <img src="{{ url_for('static', filename='images/inverted-dice-3.png') }}">
+    {% elif siffran == 4   %}
+    <img src="{{ url_for('static', filename='images/inverted-dice-4.png') }}">
+    {% elif siffran == 5   %}
+    <img src="{{ url_for('static', filename='images/inverted-dice-5.png') }}">
+    {% elif siffran == 6   %}
+    <img src="{{ url_for('static', filename='images/inverted-dice-6.png') }}">
+   {%  endif  %}
+
+    {% if siffran > 3   %}
+        <p>Du har vunnit ett pris</p>
+    {%  endif  %}
+    
+    <table>
+    {% for c in customers  %}
+        <tr>
+            <td>
+                {{ c.GivenName }}
+            </td>
+            <td>
+                {{ c.Surname }}
+            </td>
+            <td>
+                {{ c.City }}
+            </td>
+        </tr>
+    
+    {% endfor %}
+</table>
+    {% endblock %}    
