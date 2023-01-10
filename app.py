@@ -20,8 +20,14 @@ def startpage():
     #trendingCategories = Category.query.all()
     #return render_template("index.html", trendingCategories=trendingCategories)
 
-@app.route("/category/<id>")
+@app.route("/customer/<id>")
 def customers():
+    customers = Customer.query.filter_by(Id =id).first()
+    return render_template("customer.html", customer=customers)
+    
+
+@app.route("/customers")
+def customer():
     customers = Customer.query.all()
     return render_template("customers.html", customers=customers)
     # return render_template("category.html", products=products)
@@ -37,6 +43,6 @@ if __name__  == "__main__":
     with app.app_context():
         upgrade()
     
-    seedData(db)
-    app.run()
+        seedData(db)
+        app.run()
 
