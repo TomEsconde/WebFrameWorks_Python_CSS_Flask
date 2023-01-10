@@ -1,12 +1,10 @@
-{% extends "basetemplate2.html" %}
+{% extends "basetemplate.html" %}
 
 {% block title %}
 Välkommen till vår sajt
 {% endblock %}
 
 {% block content %}
-
-
     {% for c in customers  %}
     <table>
         <tr>
@@ -23,7 +21,6 @@ Välkommen till vår sajt
                 <a href="/customer/{{ c.Id }}" class="btn">More info</a>
             </td>
         </tr>
-    
     {% endfor %}
-</table>
-    {% endblock %}    
+    </table>
+{% endblock %}    
