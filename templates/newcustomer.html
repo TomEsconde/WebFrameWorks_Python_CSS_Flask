@@ -1,0 +1,36 @@
+{% extends "baseTemplate.html" %}
+
+{% block title %}
+New customer
+{% endblock %}
+
+{% block content %}
+
+    {% for field, errors in formen.errors.items() %}
+    {{ formen[field].label }}: {{ ', '.join(errors) }}
+    </br>
+    {% endfor %}
+
+    <h3>
+      Fill out the form with the customers information. Then press "Save"
+   </h3>
+   <form method="post" class="form-control">
+    {{ formen.csrf_token }}
+    {{ formen.GivenName(placeholder="Enter GivenName") }} <br><br>
+    {{ formen.Surname(placeholder="Enter Surname") }}<br><br>
+    {{ formen.Streetaddress(placeholder="Enter Streetaddress") }}<br><br>
+    {{ formen.City(placeholder="Enter City") }}<br><br>
+    {{ formen.Zipcode(placeholder="Enter Zipcode") }}<br><br>
+    {{ formen.Country(placeholder="Enter Country") }}<br><br>
+    {{ formen.CountryCode(placeholder="Enter CountryCode") }}<br><br>
+    {{ formen.Birthday(placeholder="Enter Birthday") }}<br><br>
+    {{ formen.NationalId(placeholder="Enter NationalId") }}<br><br>
+    {{ formen.TelephoneCountryCode(placeholder="Enter TelephoneCountryCode") }}<br><br>
+    {{ formen.Telephone(placeholder="Enter Telephone") }}<br><br>
+    {{ formen.EmailAddress(placeholder="Enter EmailAddress") }}<br><br>
+
+
+    <input type="submit" value="Save">
+    <p id="reminder">Remember to always check the customers<br> identification before adding<br> the customer to our system</p>
+   </form>
+{% endblock %}

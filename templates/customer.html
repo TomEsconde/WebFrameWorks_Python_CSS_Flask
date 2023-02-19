@@ -1,11 +1,162 @@
-{% extends "basetemplate2.html" %}
+{% extends "basetemplate.html" %}
 
 {% block title %}
 Kundsida {{ customer.Surname }}, {{ customer.GivenName }}
 {% endblock %}
 
 {% block content %}
+<table>
+    <tr class="table th">
+        <th>
+            <strong>Customer ID</strong>
+        </th>
+        <th>
 
-<h1>{{ customer.Surname }}, {{ customer.GivenName }}</h1>
-<p>Kunden bor i {{ customer.City }}</p>
+        </th>
+        <th>
+
+        </th>
+        <th>
+            <strong>First Name</strong>
+        </th>
+        <th>
+
+        </th>
+        <th>
+
+        </th>
+        <th>
+            <strong>Sur Name</strong>
+        </th>
+    </tr>
+    <tr class="table td">
+        <td>
+            {{ customer.Id }}
+        </td>
+        <td>
+        </td>
+        <td>
+
+        </td>
+        <td>
+            {{ customer.GivenName }}
+        </td>
+        <td>
+
+        </td>
+        <td>
+
+        </td>
+        <td>
+            {{ customer.Surname }}
+        </td>
+        
+    </tr>
+</table>
+
+<!-- Ny rad här -->
+
+<table>
+    <tr class="table th">
+        <th>
+            <strong>Social security Number</strong>
+        </th>
+        <th>
+
+        </th>
+        <th>
+
+        </th>
+        <th>
+            <strong>City</strong>
+        </th>
+        <th>
+
+        </th>
+        <th>
+
+        </th>
+        <th>
+            <strong>Street adress</strong>
+        </th>
+    </tr>
+    <tr class="table td">
+        <td>
+            {{ customer.NationalId }}
+        </td>
+        <td>
+        </td>
+        <td>
+
+        </td>
+        <td>
+            {{ customer.City }}
+        </td>
+        <td>
+
+        </td>
+        <td>
+
+        </td>
+        <td>
+            {{ customer.Streetaddress }}
+        </td>
+        
+    </tr>
+</table>
+
+
+
+<br><br>
+
+<!-- BankKonton -->
+
+<table>
+    <tr class="table th">
+        <th>Account Number</th>
+        <th></th>
+        <th></th>
+        <th>Account Type</th>
+        <th></th>
+        <th></th>
+        <th>Balance</th>
+        <th></th>
+        <th></th>
+        
+    </tr>
+    {% for x in customer.Accounts %}
+    
+    <tr class="table td">
+        <td>
+            <a href="/transactions/{{ x.Id }}">{{ x.Id }}</a> 
+        </td>
+        <td></td>
+        <td></td>
+        <td>
+            {{ x.AccountType }}
+        </td>
+        <td></td>
+        <td></td>
+        <td>
+            {{ x.Balance }}
+        </td>
+        <td></td>
+        <td></td>
+        <td><a href="/deposit/{{ x.Id }}" class="btn">Deposit</a></td>
+        <td></td>
+        <td></td>
+        <td><a href="/withdraw/{{ x.Id }}" class="btn">Withdraw</a></td>
+        <td></td>
+        <td></td>
+        <td><a href="/transfer/{{ x.Id }}" class="btn">Transfer</a></td>
+
+    {% endfor %}
+
+    <tr>
+        <td> <h1>Total Balance = {{ Saldo }}</h1></td>
+    </tr>
+    
+
+</table>
+
 {% endblock %}    

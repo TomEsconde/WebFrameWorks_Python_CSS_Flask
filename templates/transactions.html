@@ -1,0 +1,36 @@
+{% extends "basetemplate.html" %}
+
+{% block title %}
+<h1>Hej</h1>
+{% endblock %}
+
+{% block content %}
+
+<table class="table">
+    <tr>
+        <th>
+            Type
+        </th>
+        <th>
+            Date
+        </th>
+        <th>
+            Amount
+        </th>
+    </tr>
+     {% for transaction in transactions %}
+    <tr>
+        <td>
+            {{ transaction.Type }}
+        </td>
+        <td>
+            {{ transaction.Date }}
+        </td>
+        <td>
+            {{ transaction.Amount }}
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}    

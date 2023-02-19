@@ -1,0 +1,24 @@
+{% extends "baseTemplate.html" %}
+
+{% block title %}
+New customer
+{% endblock %}
+
+{% block content %}
+
+    {% for field, errors in form.errors.items() %}
+    {{ form[field].label }}: {{ ', '.join(errors) }}
+    </br>
+    {% endfor %}
+
+    <h3>
+      How much do you want to Withdraw:
+   </h3>
+   <form method="post" class="form-control">
+    {{ form.csrf_token }}
+    {{ form.Amount(placeholder="Enter Amount") }} <br><br>
+    
+    <input type="submit" value="Save">
+    <p id="reminder">Remember to always check the customers<br> identification before adding<br> the customer to our system</p>
+   </form>
+{% endblock %}

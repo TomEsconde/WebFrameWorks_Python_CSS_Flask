@@ -5,22 +5,79 @@ Välkommen till vår sajt
 {% endblock %}
 
 {% block content %}
-    {% for c in customers  %}
+
+<form method="get">
+    <input type="text" placeholder="Sök" name="q" value="{{ q }}">
+    <input class="btn" type="submit" value="Sök">
+</form>
+
+You are on page {{ page }} of {{ pages }} 
     <table>
-        <tr>
+        <thead class="table th">
+            <th>Name
+                <a href="/customers?sortColumn=namn&sortOrder=asc&q={{ q }}">
+                    <i class='bx bxs-up-arrow-alt'></i>
+                </a>
+                <a href="/customers?sortColumn=namn&sortOrder=desc&q={{ q }}">
+                    <i class='bx bx-down-arrow-alt'></i>
+                </a>
+            </th>
+                
+            <!-- <th>SurName</th> -->
+                
+            <th>City
+                <a href="/customers?sortColumn=city&sortOrder=asc&q={{ q }}">
+                    <i class='bx bxs-up-arrow-alt'></i>
+                </a>
+                <a href="/customers?sortColumn=city&sortOrder=desc&q={{ q }}">
+                    <i class='bx bx-down-arrow-alt'></i>
+                </a>
+            </th>
+            <th>
+                Social security number
+            </th>
+            <td></td>
+        </thead>
+        {% for c in customers  %}
+        <tr class="table td">
             <td>
-                {{ c.GivenName }}
+                {{ c.GivenName }} {{ c.Surname }}
+                
             </td>
-            <td>
+            <!-- <td>
                 {{ c.Surname }}
-            </td>
+            </td> -->
             <td>
                 {{ c.City }}
+                
             </td>
             <td>
-                <a href="/customer/{{ c.Id }}" class="btn">More info</a>
+                {{ c.NationalId }}
+            </td>
+            <td>
+                <a href="/customer/{{ c.Id }}" class="btn">View Profile</a>
             </td>
         </tr>
     {% endfor %}
+    <tfoot>
+        <tr>
+            <td>
+                {% if has_prev %}
+                <a class="btn" href="/customers?page={{ page - 1 }}&sortColumn={{ sortColumn }}&sortOrder={{ sortOrder }}&q={{ q }}">
+                    Prev
+                </a>
+                {% endif %}
+            </td>
+            <td></td>
+            <td></td>
+            <td>
+                {% if has_next %}
+                <a class="btn" href="/customers?page={{ page + 1 }}&sortColumn={{ sortColumn }}&sortOrder={{ sortOrder }}&q={{ q }}">
+                    Next
+                </a>
+                {% endif %}
+            </td>
+        </tr>
+    </tfoot>
     </table>
 {% endblock %}    

@@ -1,9 +1,52 @@
-{% extends "basetemplate2.html" %}
+{% extends "basetemplate.html" %}
 
 {% block title %}
-<p>Hej</p>
+<p>Welcome to Toms banksystem</p>
 {% endblock %}
 
 {% block content %}
-<h1>Start sida</h1>
+<h1>Welcome to Toms banksystem</h1>
+<table class="table">
+    <tr class="table th">
+        <th>
+            <strong>Total Clients</strong>
+        </th>
+    </tr>
+
+    <tr class="table td">
+        <td>
+            {{ customers }}
+        </td>  
+    </tr>
+</table>
+
+<table class="table">
+    <tr class="table th">
+        <th>
+            <strong>Total accounts</strong>
+        </th>
+    </tr>
+
+    <tr class="table td">
+        <td>
+            {{ allAccount }}
+        </td>
+    </tr>
+</table>
+
+<table class="table">
+    <tr class="table th">
+        <th>
+            <strong>Total Balance</strong>
+        </th>
+    </tr>
+
+    <tr class="table td">
+        <td>
+            {{ balance }}
+        </td>
+    </tr>
+</table>
+
+
 {% endblock %}    

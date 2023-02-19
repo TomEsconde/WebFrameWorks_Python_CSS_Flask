@@ -8,6 +8,7 @@
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css'  rel='stylesheet'>
     <title>
         {% block title %}
+        <h1>Bankomaten</h1>
         {% endblock %}
        </title>
 </head>
@@ -22,14 +23,35 @@
           <aside class="sidenav">
               <div class="sidenav__logo">
                 <i class="bx bxl-c-plus-plus"></i>
-                <span class="sidenav__logo_name">SHAdmin</span>
+                <span class="sidenav__logo_name">Toms banksystem</span>
               </div>
               <ul class="sidenav__list">
                   <li class="sidenav__list-item {{ 'active' if activePage == 'startPage' }}">
                       <a href="/">
                           <i class="bx bx-list-ul"></i>
-                          Bla bla</a>
+                          StartPage</a>
                   </li>
+                  <li class="sidenav__list-item {{ 'active' if activePage == 'CustomersPage' }}">
+                    <a href="/customers">
+                        <i class="bx bx-list-ul"></i>
+                        List customers</a>
+                </li>
+
+                <li class="sidenav__list-item {{ 'active' if activePage == 'CustomersPage' }}">
+                    <a href="/newcustomer">
+                        <i class="bx bx-list-ul"></i>
+                        New Customer</a>
+                </li>
+
+                {{ current_user.email }}  
+                
+                {% if current_user.is_authenticated %}
+                <li class="sidenav__list-item {{ 'active' if activePage == 'secretPage' }}">
+                    <a href="/logout">
+                        <i class="bx bx-list-ul"></i>
+                        Logout</a>
+                </li>
+                {% endif %}
 
               </ul>
           </aside>        
