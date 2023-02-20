@@ -8,7 +8,7 @@ from forms import NewCustomerForm
 from flask_security import roles_accepted, auth_required, logout_user
 from model import Customer, Account, Transaction
 from model import db, seedData
-from forms import NewCustomerForm, Depositform, Withdrawform
+from forms import NewCustomerForm, Depositform, Withdrawform, Transferform
 from datetime import datetime
 import os
 
@@ -52,33 +52,52 @@ def customer(id):
 
 
 
-# @app.route("/transfer/<id>", methods=['GET', 'POST'])
-# @auth_required()
-# @roles_accepted("Admin")
-# def withdraw(id):
-#     form = Transferform()
-#     account = Account.query.filter_by(Id = id).first()
-#     customer = Customer.query.filter_by(Id =id).first()
-#     date = datetime.now()
-#     large = ["too large"]
-#     if form.validate_on_submit():
-#         if account.Balance < form.Amount.data:
-#             form.Amount.errors = form.Amount.errors + large
+@app.route("/transfer/<id>", methods=['GET', 'POST'])
+@auth_required()
+@roles_accepted("Admin")
+def transfer(id):
+    form = Transferform()
+    account = Account.query.filter_by(Id = id).first()
+    reciever = Account.query.filter_by(Id = form.Id.data).first()
+    allAccounts = Account.query.all()
+    transactionSender = Transaction()
+    transactionReciever = Transaction()
+    date = datetime.now()
+    large = ["too large"]
+    doNotExist = ["Does not exist"]
+    if form.validate_on_submit():
+        if account.Balance < form.Amount.data:
+            form.Amount.errors = form.Amount.errors + large
+        # if account not in form.Id.data:
+        #     form.Id.errors = form.Id.errors + doNotExist
             
-#         else:
-#             account.Balance = account.Balance - form.Amount.data
-#             t = Transaction()
-#             t.AccountId = account.Id
-#             t.Operation = "Bank withdrawal"
+        else:
+            transactionSender.Amount = form.Amount.data
+            account.Balance = account.Balance - transactionSender.Amount
+            transactionSender.NewBalance = account.Balance
+            transactionSender.AccountId = account.Id
+            transactionSender.Date = date
+            transactionSender.Type = "Credit"
+            transactionSender.Operation = "Transfer"
 
-#             t.Type = "Credit"
-#             t.Amount = form.Amount.data
-#             t.NewBalance = account.Balance
-#             t.Date = datetime.now()
-#             db.session.add(t)
-#             db.session.commit()
-#             return redirect("/customer/" + str(account.CustomerId) )
-#     return render_template("transfer.html", form=form, account= account, customer = customer, date=date )
+            transactionReciever.Amount = form.Amount.data
+            reciever.Balance = reciever.Balance + transactionSender.Amount
+            transactionReciever.NewBalance = account.Balance
+            transactionReciever.AccountId = account.Id
+            transactionReciever.Date = date
+            transactionReciever.Type = "Debit"
+            transactionReciever.Operation = "Transfer"
+
+            db.session.add(account)
+            db.session.add(reciever)
+            db.session.add(transactionReciever)
+            db.session.add(transactionSender)
+            db.session.commit()
+            return redirect("/customer/" + str(account.CustomerId) )
+    return render_template("transfer.html", form=form, transactionReciever=transactionReciever, account= account, customer = customer, reciever=reciever, transactionSender=transactionSender, date=date )
+   
+    
+   
 
 
 ############## Transfer slutar här
@@ -161,6 +180,7 @@ def notEnoughBalance(id):
 def transactions(id):
     accountid = Account.query.filter_by(Id =id).first()
     transactions = Transaction.query.filter_by(AccountId=id)
+    transactions = transactions.order_by(Transaction.Date.desc())
     return render_template("transactions.html", accountid = accountid, transactions=transactions)
 
 

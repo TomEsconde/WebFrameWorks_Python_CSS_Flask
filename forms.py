@@ -29,3 +29,4 @@ class Withdrawform(FlaskForm):
 
 class Transferform(FlaskForm):
     Amount = IntegerField('Amount', validators=[validators.DataRequired(), validators.NumberRange(min=1,max=1000000)])
+    Id = IntegerField('Id', validators=[validators.DataRequired(), validators.NumberRange(min=1,max=1000000)])

@@ -12,12 +12,12 @@ Transfer Money
     {% endfor %}
 
     <h3>
-      Select accoubnt number and type in ammount:
+      Select account number and type in ammount:
    </h3>
    <form method="post" class="form-control">
     {{ form.csrf_token }}
-    {{ form.Amount(placeholder="Enter AccountNumber") }} <br><br>
-    {{ form.Amount(placeholder="Enter Amount") }} <br><br>
+    {{ form.Id(placeholder="Enter AccountNumber") }} <br><br>
+    {{ form.Amount(placeholder="Enter Ammount") }} <br><br>
     
     <input type="submit" value="Save">
     <p id="reminder">Remember to always check the customers<br> identification before adding<br> the customer to our system</p>
