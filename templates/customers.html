@@ -7,13 +7,16 @@ Välkommen till vår sajt
 {% block content %}
 
 <form method="get">
-    <input type="text" placeholder="Sök" name="q" value="{{ q }}">
+    <input type="text" placeholder="Search" name="q" value="{{ q }}">
     <input class="btn" type="submit" value="Sök">
 </form>
 
 You are on page {{ page }} of {{ pages }} 
     <table>
         <thead class="table th">
+            <th>
+                Cust.num
+            </th>
             <th>Name
                 <a href="/customers?sortColumn=namn&sortOrder=asc&q={{ q }}">
                     <i class='bx bxs-up-arrow-alt'></i>
@@ -34,28 +37,40 @@ You are on page {{ page }} of {{ pages }}
                 </a>
             </th>
             <th>
-                Social security number
+                Adress
+                <a href="/customers?sortColumn=city&sortOrder=asc&q={{ q }}">
+                    <i class='bx bxs-up-arrow-alt'></i>
+                </a>
+                <a href="/customers?sortColumn=city&sortOrder=desc&q={{ q }}">
+                    <i class='bx bx-down-arrow-alt'></i>
+                </a>
+            </th>
+            <th>
+                National Id
             </th>
             <td></td>
         </thead>
         {% for c in customers  %}
         <tr class="table td">
             <td>
+                {{ c.Id }}
+            </td>
+            <td>
                 {{ c.GivenName }} {{ c.Surname }}
                 
             </td>
-            <!-- <td>
-                {{ c.Surname }}
-            </td> -->
             <td>
                 {{ c.City }}
                 
             </td>
             <td>
+                {{ c.Streetaddress }}
+            </td>
+            <td>
                 {{ c.NationalId }}
             </td>
             <td>
-                <a href="/customer/{{ c.Id }}" class="btn">View Profile</a>
+                <a href="/customer/{{ c.Id }}" class="btn">More</a>
             </td>
         </tr>
     {% endfor %}

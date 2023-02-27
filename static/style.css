@@ -2,7 +2,7 @@
 
 
 :root {
-    --main-color: #0A2558;
+    --main-color: hsl(219, 80%, 19%);
     --color-dark: #081D45;
     --back-color: #F4F5F5;
     --header-back-color: #fff;

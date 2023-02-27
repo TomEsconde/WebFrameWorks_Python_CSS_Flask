@@ -152,11 +152,22 @@ Kundsida {{ customer.Surname }}, {{ customer.GivenName }}
 
     {% endfor %}
 
-    <tr>
-        <td> <h1>Total Balance = {{ Saldo }}</h1></td>
-    </tr>
+    
     
 
 </table>
+<table>
+    <tr>
+        <th>
+            <h2>Total Balance</h2>
+        </th>
+    </tr>
+    <tr>
+        <td>
+            <strong>{{ Saldo }}</strong>
+        </td>
+    </tr>
+</table>
+
 
 {% endblock %}    

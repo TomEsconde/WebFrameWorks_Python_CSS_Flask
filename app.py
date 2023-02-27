@@ -15,7 +15,8 @@ import os
  
 # app = Flask(__name__)
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:Kalleballe87@localhost/bank'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://hejsan123:Abcd1234!@python22server1.mysql.database.azure.com/banken'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:Kalleballe87@localhost/bank'
 app.config['SECRET_KEY'] = os.environ.get("SECRET_KEY", 'pf9Wkove4IKEAXvy-cQkeDPhv9Cb3Ag-wyJILbq_dFw')
 app.config['SECURITY_PASSWORD_SALT'] = os.environ.get("SECURITY_PASSWORD_SALT", '146585145368132386173505678016728509634')
 app.config["REMEMBER_COOKIE_SAMESITE"] = "strict"
@@ -59,17 +60,24 @@ def transfer(id):
     form = Transferform()
     account = Account.query.filter_by(Id = id).first()
     reciever = Account.query.filter_by(Id = form.Id.data).first()
+   
     allAccounts = Account.query.all()
     transactionSender = Transaction()
     transactionReciever = Transaction()
     date = datetime.now()
     large = ["too large"]
     doNotExist = ["Does not exist"]
+    sameaccount = ["Cannot send to same account"]
     if form.validate_on_submit():
         if account.Balance < form.Amount.data:
             form.Amount.errors = form.Amount.errors + large
-        # if account not in form.Id.data:
-        #     form.Id.errors = form.Id.errors + doNotExist
+
+        elif reciever == None:
+            form.Id.errors = form.Id.errors + doNotExist
+        
+        elif reciever.Id == account.Id:
+            form.Id.errors = form.Id.errors + sameaccount
+        
             
         else:
             transactionSender.Amount = form.Amount.data
@@ -94,7 +102,7 @@ def transfer(id):
             db.session.add(transactionSender)
             db.session.commit()
             return redirect("/customer/" + str(account.CustomerId) )
-    return render_template("transfer.html", form=form, transactionReciever=transactionReciever, account= account, customer = customer, reciever=reciever, transactionSender=transactionSender, date=date )
+    return render_template("transfer.html", form=form, allAccounts=allAccounts, transactionReciever=transactionReciever, account= account, customer = customer, reciever=reciever, transactionSender=transactionSender, date=date )
    
     
    
@@ -205,7 +213,8 @@ def customers():
 
     customers = customers.filter(
         Customer.GivenName.like('%' + q + '%') |
-        Customer.City.like('%' + q + '%'))
+        Customer.City.like('%' + q + '%')  |
+        Customer.Id.like(q))
 
     if sortColumn == "namn":
         if sortOrder =="asc":
@@ -274,5 +283,6 @@ if __name__  == "__main__":
         upgrade()
     
         seedData(app, db)
-        app.run(debug = True)
+        app.run()
+        # app.run(debug = True)
 
