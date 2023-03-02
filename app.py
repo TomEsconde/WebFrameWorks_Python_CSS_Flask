@@ -7,10 +7,12 @@ from forms import NewCustomerForm
 
 from flask_security import roles_accepted, auth_required, logout_user
 from model import Customer, Account, Transaction
-from model import db, seedData
+from model import db, seedData, user_datastore
 from forms import NewCustomerForm, Depositform, Withdrawform, Transferform
 from datetime import datetime
 import os
+from flask_security import Security, SQLAlchemyUserDatastore, auth_required, hash_password
+from flask_security.models import fsqla_v3 as fsqla
 
  
 # app = Flask(__name__)
@@ -25,7 +27,19 @@ app.config["SESSION_COOKIE_SAMESITE"] = "strict"
 db.app = app
 db.init_app(app)
 migrate = Migrate(app,db)
+
  
+
+# fsqla.FsModels.set_db_info(db)
+
+# class Role(db.Model, fsqla.FsRoleMixin):
+#     pass
+
+# class User(db.Model, fsqla.FsUserMixin):
+#     pass
+
+# user_datastore = SQLAlchemyUserDatastore(db, User, Role)
+app.security = Security(app, user_datastore)
  
  
 
@@ -54,8 +68,8 @@ def customer(id):
 
 
 @app.route("/transfer/<id>", methods=['GET', 'POST'])
-@auth_required()
-@roles_accepted("Admin")
+# @auth_required()
+# @roles_accepted("Admin")
 def transfer(id):
     form = Transferform()
     account = Account.query.filter_by(Id = id).first()
@@ -113,8 +127,8 @@ def transfer(id):
 
 
 @app.route("/deposit/<id>", methods=['GET', 'POST'])
-@auth_required()
-@roles_accepted("Admin")
+# @auth_required()
+# @roles_accepted("Admin")
 def deposit(id):
     form = Depositform()
     account = Account.query.filter_by(Id = id).first()
@@ -137,8 +151,8 @@ def deposit(id):
     return render_template("deposit.html", form=form, account= account, customer = customer, date=date )
     
 @app.route("/withdraw/<id>", methods=['GET', 'POST'])
-@auth_required()
-@roles_accepted("Admin")
+# @auth_required()
+# @roles_accepted("Admin")
 def withdraw(id):
     form = Withdrawform()
     account = Account.query.filter_by(Id = id).first()
@@ -151,7 +165,7 @@ def withdraw(id):
     #     ownValidationOk = False
     
     
-    large = ["too large"]
+    large = ['too large']
     if form.validate_on_submit():
         if account.Balance < form.Amount.data:
             form.Amount.errors = form.Amount.errors + large

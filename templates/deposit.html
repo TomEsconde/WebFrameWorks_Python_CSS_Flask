@@ -1,4 +1,4 @@
-{% extends "baseTemplate.html" %}
+{% extends "basetemplate.html" %}
 
 {% block title %}
 New customer
@@ -16,8 +16,9 @@ New customer
    </h3>
    <form method="post" class="form-control">
     {{ form.csrf_token }}
-    {{ form.Amount(placeholder="Enter Amount") }} <br><br>
-    
+    <div style="width: 220px; padding-left: 30px;">
+    {{ form.Amount(placeholder="Enter Amount", class="width:220px;") }} <br><br>
+   </div>
     <input type="submit" value="Save">
     
    </form>
